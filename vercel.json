@@ -5,6 +5,15 @@
     }
   },
   "routes": [
-    { "src": "/(.*)",  "dest": "/api/index.php" }
-  ]
+    { "src": "/images/(.*)", "dest": "/images/$1" },
+    { "src": "/style.css", "dest": "/style.css" },
+    { "src": "/logo.png", "dest": "/logo.png" },
+    { "src": "/logo.jpg", "dest": "/logo.jpg" },
+    { "src": "/logo_whatsapp.png", "dest": "/logo_whatsapp.png" },
+    { "src": "/logo_whatsapp.svg", "dest": "/logo_whatsapp.svg" },
+    { "src": "/qr_whatsapp.png", "dest": "/qr_whatsapp.png" },
+    { "src": "/(.*)\.php", "dest": "/api/index.php" },
+    { "src": "/(.*)", "dest": "/api/index.php" }
+  ],
+  "outputDirectory": "public"
 }
