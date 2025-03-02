@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إعدادات الحساب</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+    <div class="settings-container">
+        <div class="admin-header">
+            <h1>إعدادات الحساب</h1>
+            <div class="admin-nav">
+                <nav>
+                    <ul>
+                        <li><a href="/admin/dashboard">لوحة التحكم</a></li>
+                        <li><a href="/admin/logout">تسجيل الخروج</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <% if (locals.success) { %>
+            <div class="message success"><%= success %></div>
+        <% } %>
+
+        <% if (locals.error) { %>
+            <div class="message error"><%= error %></div>
+        <% } %>
+
+        <div class="settings-section">
+            <h2>تغيير كلمة المرور</h2>
+            <form method="POST" action="/admin/change-password">
+                <div class="form-group">
+                    <label for="currentPassword">كلمة المرور الحالية:</label>
+                    <input type="password" id="currentPassword" name="currentPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="newPassword">كلمة المرور الجديدة:</label>
+                    <input type="password" id="newPassword" name="newPassword" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">تأكيد كلمة المرور الجديدة:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                
+                <button type="submit">تحديث كلمة المرور</button>
+            </form>
+        </div>
+
+        <% if (locals.adminRole === 'admin') { %>
+        <div class="settings-section">
+            <h2>إضافة وكيل جديد</h2>
+            <form method="POST" action="/admin/create-agent">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">كلمة المرور:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit">إنشاء حساب وكيل</button>
+            </form>
+
+            <% if (locals.agents && agents.length > 0) { %>
+            <div class="agents-list">
+                <h3>الوكلاء الحاليون</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم المستخدم</th>
+                            <th>تاريخ الإنشاء</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% agents.forEach(agent => { %>
+                            <tr>
+                                <td><%= agent.username %></td>
+                                <td><%= new Date(agent.created_at).toLocaleString('ar-SA') %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% } %>
+        </div>
+        <% } %>
+    </div>
+</body>
+</html>

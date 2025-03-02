@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم</title>
+    <link rel="icon" type="image/png" href="/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="admin-header">
+            <h1>لوحة التحكم</h1>
+            <div class="admin-nav">
+                <nav>
+                    <ul>
+                        <li><a href="/admin/settings">إعدادات الحساب</a></li>
+                        <li><a href="/admin/logout">تسجيل الخروج</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <% if (locals.success) { %>
+            <div class="message success"><%= success %></div>
+        <% } %>
+
+        <% if (locals.error) { %>
+            <div class="message error"><%= error %></div>
+        <% } %>
+
+        <div class="orders-section">
+            <h2>الطلبات الحالية</h2>
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th>رقم الطلب</th>
+                        <th>الاسم</th>
+                        <th>رقم الهاتف</th>
+                        <th>العنوان</th>
+                        <th>المنتج</th>
+                        <th>الكمية</th>
+                        <th>الملاحظات</th>
+                        <th>الحالة</th>
+                        <th>تاريخ الطلب</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orders.forEach(order => { %>
+                        <tr>
+                            <td><%= order.id %></td>
+                            <td><%= order.name %></td>
+                            <td><%= order.phone %></td>
+                            <td><%= order.address %></td>
+                            <td><%= order.product_type %></td>
+                            <td><%= order.quantity %></td>
+                            <td><%= order.notes %></td>
+                            <td>
+                                <form method="POST" action="/admin/update-order-status">
+                                    <input type="hidden" name="orderId" value="<%= order.id %>">
+                                    <select name="status" onchange="this.form.submit()">
+                                        <option value="pending" <%= order.status === 'pending' ? 'selected' : '' %>>قيد الانتظار</option>
+                                        <option value="confirmed" <%= order.status === 'confirmed' ? 'selected' : '' %>>تم التأكيد</option>
+                                        <option value="cancelled" <%= order.status === 'cancelled' ? 'selected' : '' %>>ملغي</option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td><%= new Date(order.created_at).toLocaleString('ar-SA') %></td>
+                            <td>
+                                <a href="https://wa.me/<%= order.phone %>" target="_blank" class="whatsapp-link">
+                                    <img src="/logo_whatsapp.svg" alt="WhatsApp" class="whatsapp-icon">
+                                    تواصل
+                                </a>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
