@@ -5,15 +5,17 @@
     }
   },
   "routes": [
-    { "src": "/images/(.*)", "dest": "/images/$1" },
-    { "src": "/style.css", "dest": "/style.css" },
-    { "src": "/logo.png", "dest": "/logo.png" },
-    { "src": "/logo.jpg", "dest": "/logo.jpg" },
-    { "src": "/logo_whatsapp.png", "dest": "/logo_whatsapp.png" },
-    { "src": "/logo_whatsapp.svg", "dest": "/logo_whatsapp.svg" },
-    { "src": "/qr_whatsapp.png", "dest": "/qr_whatsapp.png" },
-    { "src": "/(.*)\.php", "dest": "/api/index.php" },
+    { "src": "/images/(.*)", "dest": "/public/images/$1" },
+    { "src": "/style.css", "dest": "/public/style.css" },
+    { "src": "/logo.png", "dest": "/public/logo.png" },
+    { "src": "/logo.jpg", "dest": "/public/logo.jpg" },
+    { "src": "/logo_whatsapp.png", "dest": "/public/logo_whatsapp.png" },
+    { "src": "/logo_whatsapp.svg", "dest": "/public/logo_whatsapp.svg" },
+    { "src": "/qr_whatsapp.png", "dest": "/public/qr_whatsapp.png" },
+    { "src": "/(.*)\.(css|jpg|png|svg)", "dest": "/public/$1.$2" },
+    { "src": "/(.*)\.(php|html?)", "dest": "/api/index.php" },
     { "src": "/(.*)", "dest": "/api/index.php" }
   ],
+  "buildCommand": "mkdir -p public && cp -r images logo* style.css qr_whatsapp.png public/",
   "outputDirectory": "public"
 }
